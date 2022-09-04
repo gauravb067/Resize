@@ -19,6 +19,13 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  font-size: large;
+}
+
+.footer_font{
+  font-family: 'Kaushan Script', cursive;
+  font-weight: 500;
+  font-size: x-large;
 }
 
 .footer a {
