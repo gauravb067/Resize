@@ -18,10 +18,26 @@ export default function Home() {
     e.preventDefault()
     var L=parseInt(lengtho);
     var B=parseInt(widtho);
+    
     var l=parseInt(lengthc);
     var b=parseInt(widthc);
+    
     if(Number.isInteger(L) && Number.isInteger(B) && Number.isInteger(l) && Number.isInteger(b)){
       ///////////////////////////////////////// Length Sid : /////////////////////////////////////////
+      if (L<=B){
+        var change=L;
+        L=B;
+        B=change
+        //console.log(L,B)
+      }
+
+      if (l<=b){
+        var change1=l;
+        l=b;
+        b=change1;
+        //console.log(l,b)
+      }
+
       if (l <= L && b <= B){
         var columnsl=Math.floor(B/b);
         var rowsl=Math.floor(L/l);
@@ -31,15 +47,31 @@ export default function Home() {
         var lenght_screap_Ll = L - lenght_used_Ll; 
         var lenght_screap_Bl = B - lenght_used_Bl;
         var zl = 0;
+
+        var entire_row_widthl_screp=0
+        var entire_row_heightl_screp=0
+        var single_col_widthl_screp=0
+        var single_col_heightl_screp=0
           if (b <= lenght_screap_Ll && l <= B)
           {
               //z = B / l;
               lenght_used_Ll=lenght_used_Ll+b
               lenght_screap_Ll=lenght_screap_Ll-b
               zl = Math.floor(B / l);
-              //Console.WriteLine("remaining pics from escrape : " + z);
+              
+              entire_row_widthl_screp=((zl*l)/B)*100 + "%"
+              entire_row_heightl_screp=(b/L)*100 + "%"
+              single_col_widthl_screp=(1/zl)*100 + "%"
+              single_col_heightl_screp=(b/L)*100 + "%"
+
+              //console.log("dfdsfdssdf " + single_col_widthl_screp)
           }
         horizontall = horizontall + zl;
+        var entire_row_widthl=((lenght_used_Bl)/B)*100 + "%"
+        var entire_row_heightl=(l/L)*100 + "%"
+        var single_col_widthl=((1)/columnsl)*100 + "%"
+        var single_col_heightl=(l/L)*100 + "%"
+        //console.log(columnsl,rowsl)
       }
 
       /////////////////////////////////////////// Bridth sid : /////////////////////////////////////
@@ -52,16 +84,33 @@ export default function Home() {
         var lenght_screap_Lw = B - lenght_used_Lw;
         var lenght_screap_Bw = L - lenght_used_Bw;
         var zw = 0;
+
+        var entire_row_widthw_screp=0
+        var entire_row_heightw_screp=0
+        var single_col_widthw_screp=0
+        var single_col_heightw_screp=0
           if (b <= lenght_screap_Lw && l <= L)
           {
-            lenght_used_Lw=lenght_used_Lw + b
-            lenght_screap_Lw=lenght_screap_Lw-b
-            zw = Math.floor(L / l);
+              lenght_used_Lw=lenght_used_Lw + b
+              lenght_screap_Lw=lenght_screap_Lw-b
+              zw = Math.floor(L / l);
+
+              entire_row_widthw_screp=(b/B)*100 + "%"
+              entire_row_heightw_screp=((l*zw)/L)*100 + "%"
+              single_col_widthw_screp=100 + "%"
+              single_col_heightw_screp=(1/zw)*100 + "%"
+
+            console.log(entire_row_widthw_screp,entire_row_heightw_screp,single_col_widthw_screp,single_col_heightw_screp,zw)
           }
         verticalw = verticalw + zw;
+        var entire_row_width=((rowsw*l)/B)*100 + "%"
+        var entire_row_height=(b/L)*100 + "%"
+        var single_col_width=((1)/rowsw)*100 + "%"
+        var single_col_height=(b/L)*100 + "%"
+        //console.log(entire_row_width,entire_row_height,single_col_width,single_col_height)
       }
       
-      setarrother({show:true,L,B,l,b,columnsl,rowsl,horizontall,lenght_used_Ll,lenght_screap_Ll,zl,lenght_screap_Bl,lenght_used_Bl,columnsw,rowsw,verticalw,lenght_used_Lw,lenght_used_Bw,lenght_screap_Lw,lenght_screap_Bw,zw})
+      setarrother({show:true,L,B,l,b,columnsl,rowsl,horizontall,lenght_used_Ll,lenght_screap_Ll,zl,lenght_screap_Bl,lenght_used_Bl,columnsw,rowsw,verticalw,lenght_used_Lw,lenght_used_Bw,lenght_screap_Lw,lenght_screap_Bw,zw,entire_row_width,entire_row_height,single_col_width,single_col_height,entire_row_widthl,entire_row_heightl,single_col_widthl,single_col_heightl,entire_row_widthl_screp,entire_row_heightl_screp,single_col_widthl_screp,single_col_heightl_screp,entire_row_widthw_screp,entire_row_heightw_screp,single_col_widthw_screp,single_col_heightw_screp,zw})
 
     }else{
       setarrother(false);
@@ -93,7 +142,7 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet"/>
       </Head>
 
-      <header className="text-gray-600 body-font">
+      <header className="text-gray-600 body-font one-edge-shadow">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -126,7 +175,7 @@ export default function Home() {
       
       <div>
         <form onSubmit={calculate}>
-        <div className="container px-5 py-6 mx-auto">
+        <div className="container pt-6 mx-auto">
           <div className="bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md shd">
             <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Main board size : </h2>
             <div className='flex flex-col border-b-2 pb-4'>
@@ -156,27 +205,9 @@ export default function Home() {
         </form>
       </div>
       
-      {arrother.show && <div className="container px-5 py-6 mx-auto">
-          <div className="bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 z-10 shadow-md shd">
-            <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Horizontal Cutting : </h2>
-            <p>Main Board Length : {arrother.L}</p>
-            <p>Main Board Bridth : {arrother.B}</p>
-            <p>Cuting Board Length : {arrother.l}</p>
-            <p>Cuting Board Bridth : {arrother.b}</p>
-            <p>cuting pics inside the Length : {arrother.rowsl}</p>
-            <p>cuting pics inside the Bridth : {arrother.columnsl}</p>
-            <p>Total Pics : {arrother.horizontall} </p>
-            <p>Lenght_used : {arrother.lenght_used_Ll}</p>
-            <p>Bridth_used : {arrother.lenght_used_Bl}</p>
-            <p>Remaining length : {arrother.lenght_screap_Ll}</p>
-            <p>Remaining bridth : {arrother.lenght_screap_Bl}</p>
-            <p>Pics from escrape : {arrother.zl}</p>
-          </div>
-      </div>}
-
-      {arrother.show && <div className="container px-5 py-6 mx-auto">
-          <div className="bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 z-10 shadow-md shd">
-            <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Vertical Cutting : </h2>
+      {arrother.show && <div className={`flex flex-wrap -m-4 mt-8 container bg-white rounded-lg p-8 md:ml-auto w-full z-10 shadow-md shd my-6 mx-auto ${arrother.verticalw>arrother.horizontall?"bg-green-200":""}`}>
+          <div className="md:w-2/5">
+            <h2 className="text-gray-900 text-xl mb-1 font-medium title-font">Vertical Cutting : </h2>
             <p>Main Board Length : {arrother.L}</p>
             <p>Main Board Bridth : {arrother.B}</p>
             <p>Cuting Board Length : {arrother.l}</p>
@@ -190,9 +221,969 @@ export default function Home() {
             <p>Remaining bridth : {arrother.lenght_screap_Lw}</p>
             <p>Pics from escrape : {arrother.zw}</p>
           </div>
+          <div className="py-4 md:w-3/5 sm:w-full">
+            
+            {arrother.columnsw>0 && <div className='bg-slate-200 border-0 border-slate-400 relative layout-div'>
+              {arrother.rowsw>0 && arrother.columnsw>=1 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height, float:"left"}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=2 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=3 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=4 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=5 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=6 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=7 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=8 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=9 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {arrother.rowsw>0 && arrother.columnsw>=10 && <div className='bg-white' style={{width:arrother.entire_row_width, height:arrother.entire_row_height}}>
+                  {arrother.rowsw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+                  {arrother.rowsw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_width, height:"100%", float:"left"}}>
+                    <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                    <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                  </div>}
+              </div>}
+              {/* // */}
+              {arrother.zw>0 && <div className='bg-white absolute top-0' style={{width:arrother.entire_row_widthw_screp, height:arrother.entire_row_heightw_screp,right:"0%"}}>
+                    {arrother.zw>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.zw>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthw_screp, height:arrother.single_col_heightw_screp}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+              {/* // */}
+            </div>}
+          </div>
+          {/* <div className="p-4 md:w-2/5">
+            <div className='bg-slate-100 w-full'>gfgggd</div>
+          </div> */}
       </div>}
 
-
+      {arrother.show && <div className={`flex flex-wrap -m-4 mt-8 container bg-white rounded-lg p-8 md:ml-auto w-full z-10 shadow-md shd my-6 mx-auto ${arrother.horizontall>arrother.verticalw?"bg-green-200":""}`}>
+          <div className="md:w-2/5">
+            <h2 className="text-gray-900 text-xl mb-1 font-medium title-font">Horizontal Cutting : </h2>
+            <p>Main Board Length : {arrother.L}</p>
+            <p>Main Board Bridth : {arrother.B}</p>
+            <p>Cuting Board Length : {arrother.l}</p>
+            <p>Cuting Board Bridth : {arrother.b}</p>
+            <p>cuting pics inside the Length : {arrother.rowsl}</p>
+            <p>cuting pics inside the Bridth : {arrother.columnsl}</p>
+            <p>Total Pics : {arrother.horizontall} </p>
+            <p>Lenght_used : {arrother.lenght_used_Ll}</p>
+            <p>Bridth_used : {arrother.lenght_used_Bl}</p>
+            <p>Remaining length : {arrother.lenght_screap_Ll}</p>
+            <p>Remaining bridth : {arrother.lenght_screap_Bl}</p>
+            <p>Pics from escrape : {arrother.zl}</p>
+          </div>
+          <div className="py-4 md:w-3/5">
+            {arrother.rowsl>0 && <div className='bg-slate-200 border-0 border-slate-400 layout-div'>
+                {arrother.rowsl>0 && arrother.rowsl>=1 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                    {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=2 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=3 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=4 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=5 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=6 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=7 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=8 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=9 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {arrother.rowsl>0 && arrother.rowsl>=10 && <div className='bg-white' style={{width:arrother.entire_row_widthl, height:arrother.entire_row_heightl}}>
+                {arrother.columnsl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                    {arrother.columnsl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.l}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.b}</span>
+                    </div>}
+                </div>}
+                {/* entire_row_widthl_screp,entire_row_heightl_screp,single_col_widthl_screp,single_col_heightl_screp */}
+                {/* {console.log(arrother.entire_row_widthl_screp,arrother.entire_row_heightl_screp)} */}
+                {arrother.zl>0 && <div className='bg-white' style={{width:arrother.entire_row_widthl_screp, height:arrother.entire_row_heightl_screp}}>
+                    {arrother.zl>=1 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=2 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=3 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=4 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=5 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=6 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=7 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=8 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=9 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                    {arrother.zl>=10 && <div className='bg-white box-shadow relative' style={{width:arrother.single_col_widthl_screp, height:"100%", float:"left"}}>
+                      <span style={{position:"absolute", left:"5px",top:"49%" }}>{arrother.b}</span>
+                      <span style={{position:"absolute", left:"50%"}}>{arrother.l}</span>
+                    </div>}
+                </div>}
+            </div>}
+          </div>
+          {/* <div className="p-4 md:w-2/5">
+            <Image src="/img.png" alt="Picture of the author" width={500} height={500}/>
+          </div> */}
+      </div>}
+      
       <footer className={styles.footer}>  
           <p>Design & Devloped by&nbsp;<span className={styles.footer_font}>Gaurav Bhati</span></p>  
       </footer>
